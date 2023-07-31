@@ -1,31 +1,19 @@
 import os
-from hashlib import md5
 
-from langchain.docstore.document import Document
-from langchain.text_splitter import CharacterTextSplitter
+from loguru import logger
 
+from core.entries import prepare_documents
 from core.google import search
-from core.entries import download
+from core.vectordb import pinecone_batch_insert
 
 
-resp = search(os.environ["GOOGLE_API_KEY"], max_days=3, publisher="newtral.es")
-
-
-def load_docs(data):
-    sources = []
-    for row in data:
-        content = download(row["claimReview"][0]["url"])
-        _hash = md5(row["claimReview"][0]["title"].encode()).hexdigest()
-        sources.append(
-            Document(
-                page_content=content,
-                metadata={"url": row["claimReview"][0]["url"], "hash": _hash}
-            )
-        )
-
-    splitter = CharacterTextSplitter(chunk_size=1024, chunk_overlap=0)
-    documents = splitter.split_documents(sources)
-    return documents
-
-
-docs = load_docs(resp)
+publishers = ["aosfatos.org", "newtral.es"]
+max_days = 3
+for publisher in publishers:
+    logger.info(f"Download claim review data from {publisher}...")
+    response = search(os.environ["GOOGLE_API_KEY"], max_days=max_days, publisher=publisher)
+    logger.info("Done!")
+    documents = prepare_documents(response)
+    logger.info("Inserting data on vector db")
+    inserted = pinecone_batch_insert(documents)
+    logger.info("Done!")

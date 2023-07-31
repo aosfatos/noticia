@@ -1,5 +1,6 @@
 ipython==8.14.0
 langchain==0.0.248
+loguru==0.7.0
 newspaper3k==0.2.8
 openai==0.27.8
 pinecone-client==2.2.2

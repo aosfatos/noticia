@@ -2,6 +2,7 @@ import os
 
 import openai
 import pinecone
+from loguru import logger
 
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
@@ -21,6 +22,7 @@ def pinecone_batch_insert(data):
     batch_size = 32
     for i in range(0, len(data), batch_size):
         rows = data[i:i + batch_size]
+        logger.info(f"Inserting {len(rows)} rows on vector db...")
         ids = [f"{index}-{r.metadata['hash']}" for index, r in enumerate(rows)]
         response = openai.Embedding.create(
             input=[r.page_content for r in rows],

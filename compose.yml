@@ -1,0 +1,9 @@
+services:
+    core:
+      restart: unless-stopped
+      env_file: .env
+      container_name: noticia_search
+      tty: true
+      build:
+        context: .
+        dockerfile: Dockerfile

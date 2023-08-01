@@ -30,7 +30,10 @@ def pinecone_batch_insert(data):
             engine=EMBEDDING_MODEL
         )
         embedings = [record['embedding'] for record in response["data"]]
-        meta = [{"text": r.page_content, "url": r.metadata["url"]} for r in rows]
+        meta = [
+            {"text": r.page_content, "url": r.metadata["url"], "date": r["reviewDate"]}
+            for r in rows
+        ]
         to_insert = list(zip(ids, embedings, meta))
         index.upsert(vectors=to_insert)
         logger.info(f"Total of {len(to_insert)} rows inserted")

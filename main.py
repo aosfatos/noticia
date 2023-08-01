@@ -2,13 +2,13 @@ import os
 
 from loguru import logger
 
-from core.entries import prepare_documents
 from core.google import search
+from core.news import prepare_documents
 from core.vectordb import pinecone_batch_insert
 
 
 publishers = ["aosfatos.org", "newtral.es"]
-max_days = 3
+max_days = 2
 for publisher in publishers:
     logger.info(f"Download claim review data from {publisher}...")
     response = search(os.environ["GOOGLE_API_KEY"], max_days=max_days, publisher=publisher)

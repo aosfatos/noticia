@@ -13,5 +13,5 @@ docker-compose -f compose.yml up
 ```shell
 crontab -r
 
-0 0 * * * python main.py
+0 1 * * * python main.py
 ```

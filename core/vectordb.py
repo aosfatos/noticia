@@ -18,6 +18,7 @@ def pinecone_index(api_key=None, environment=None, index=None):
 
 def pinecone_batch_insert(data):
     index = pinecone_index()
+    to_insert = []
 
     batch_size = 32
     for i in range(0, len(data), batch_size):
@@ -32,5 +33,6 @@ def pinecone_batch_insert(data):
         meta = [{"text": r.page_content, "url": r.metadata["url"]} for r in rows]
         to_insert = list(zip(ids, embedings, meta))
         index.upsert(vectors=to_insert)
+        logger.info(f"Total of {len(to_insert)} rows inserted")
 
     return to_insert

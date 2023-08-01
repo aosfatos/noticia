@@ -10,8 +10,10 @@ docker-compose -f compose.yml up
 
 ## Schedule claim review download task
 
+Execute everyday 1am UTC
+
 ```shell
-crontab -r
+crontab -e
 
 0 1 * * * python main.py
 ```

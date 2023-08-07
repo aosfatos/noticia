@@ -15,7 +15,7 @@ publishers = [
     Publisher("aosfatos.org", aosfatos_parser),
     Publisher("newtral.es", newtral_parser),
 ]
-max_days = 2
+max_days = 1
 for publisher in publishers:
     logger.info(f"Download claim review data from {publisher}...")
     response = search(

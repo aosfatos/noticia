@@ -1,9 +1,12 @@
 services:
-    core:
+    noticia:
       restart: unless-stopped
       env_file: .env
-      container_name: noticia_search
+      container_name: noticia
       tty: true
+      ports:
+        - "7860:7860"
       build:
         context: .
         dockerfile: Dockerfile
+      command: python app.py

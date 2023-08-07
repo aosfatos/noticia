@@ -22,4 +22,4 @@ with gr.Blocks() as demo:
     msg.submit(respond, [msg, chatbot], [msg, chatbot])
     clear.click(lambda: "", None, chatbot, queue=False)
 
-demo.launch()
+demo.launch(server_name="0.0.0.0")

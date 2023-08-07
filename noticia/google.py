@@ -13,4 +13,4 @@ def search(api_key, max_days, publisher):
     logger.info(f"Getting claim review data {url}...")
     resp = requests.get(url)
     resp.raise_for_status()
-    return resp.json().get("claims", [])
+    return resp.json()

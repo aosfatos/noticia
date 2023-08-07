@@ -2,10 +2,12 @@ from hashlib import md5
 
 from langchain.docstore.document import Document
 from langchain.text_splitter import CharacterTextSplitter
+from loguru import logger
 from newspaper import Article
 
 
 def download(url):
+    logger.info(f"Downloading article {url}...")
     article = Article(url)
     article.download()
     article.parse()
